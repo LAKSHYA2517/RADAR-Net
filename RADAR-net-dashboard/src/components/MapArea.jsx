@@ -1,69 +1,85 @@
-import React from 'react';
-import FloatingWidgets from './FloatingWidgets';
+import React from "react";
+import RoutePlanner from "./FloatingWidgets";
+import {
+  MapContainer,
+  TileLayer,
+  GeoJSON,
+  Marker,
+  Popup
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
-const MapArea = () => {
+const RouteMap = ({ geojsonData }) => {
+
+  const defaultCenter = [20.5937, 78.9629];
+  const zoomLevel = geojsonData ? 13 : 5;
+
+  let start, end, distanceKm, status;
+
+  if (geojsonData) {
+    const feature = geojsonData.features[0];
+    const coordinates = feature.geometry.coordinates;
+
+    start = coordinates[0];
+    end = coordinates[coordinates.length - 1];
+    distanceKm = feature.properties.distance_km;
+    status = feature.properties.status;
+  }
+
   return (
-    <div className="flex-1 relative min-h-[500px] rounded-2xl overflow-hidden border border-navy-border shadow-2xl">
-      {/* Map Background Image */}
-      <div className="absolute inset-0 bg-navy-deep">
-        <img
-          className="w-full h-full object-cover map-bg"
-          alt="Dark stylized satellite map"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpknys8eBcPRYNLUXv-kuspkbcPuZLF6meo9Z2qcSgaDulAn46Uprnm5cqs2ABjzV7ttkaObgPzP-eRM58R2VnK8SHFQD3rRvhnIg0_0ZvZfBq0cZvqctsHHbhSfJgOCtkP-A61bXOWSBzyTKxmK9m0tB8FNEsMktxfI0TiFOaUTzklLWZrr6zVSrpxPnaj1gD0e9kDctRAYzY-dz1Ez5JW5XVIA6Uh0eMDrEfa7rRhvZd09btzcy_rJFNtnIygp-XLGTGJ-rx1KL_"
-        />
-      </div>
+    <div style={{ position: "relative", height: "600px", width: "100%" }}>
 
-      {/* Map Overlay: Grid Lines (CSS based) */}
+      {/* 🔥 Route Planner Floating UI */}
       <div
-        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          zIndex: 1000,
         }}
       >
-      </div>
+  <RoutePlanner />
+</div>
 
-      {/* Interactive Elements on Map */}
-      {/* Unit Markers */}
-      <div className="absolute top-[30%] left-[45%] flex items-center justify-center group cursor-pointer">
-        <div className="size-3 rounded-full bg-primary pulse-dot"></div>
-        <div className="absolute mt-8 opacity-0 group-hover:opacity-100 transition-opacity bg-navy-deep/90 text-xs px-2 py-1 rounded border border-primary/30 whitespace-nowrap z-50">
-           Unit Alpha-1
-        </div>
-      </div>
-      <div className="absolute top-[55%] left-[32%] flex items-center justify-center group cursor-pointer">
-        <div className="size-3 rounded-full bg-primary pulse-dot" style={{animationDelay: '0.5s'}}></div>
-        <div className="absolute mt-8 opacity-0 group-hover:opacity-100 transition-opacity bg-navy-deep/90 text-xs px-2 py-1 rounded border border-primary/30 whitespace-nowrap z-50">
-           Unit Bravo-2
-        </div>
-      </div>
-      {/* <div className="absolute top-[60%] left-[65%] flex items-center justify-center group cursor-pointer">
-        <div className="size-3 rounded-full bg-primary pulse-dot" style={{animationDelay: '1s'}}></div>
-        <div className="absolute mt-8 opacity-0 group-hover:opacity-100 transition-opacity bg-navy-deep/90 text-xs px-2 py-1 rounded border border-primary/30 whitespace-nowrap z-50">
-           Unit Charlie-3
-        </div>
-      </div> */}
 
-      {/* Floating Widgets */}
-      <FloatingWidgets />
+      <MapContainer
+        center={
+          geojsonData
+            ? [start[1], start[0]]
+            : defaultCenter
+        }
+        zoom={zoomLevel}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer
+          attribution="&copy; OpenStreetMap contributors"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
-      {/* Map Controls (Bottom Right) */}
-      <div className="absolute bottom-6 right-6 flex flex-col gap-2">
-        <button className="size-10 bg-navy-surface border border-navy-border rounded-lg text-white hover:text-primary hover:border-primary/50 flex items-center justify-center shadow-lg transition-all">
-          <span className="material-symbols-outlined">add</span>
-        </button>
-        <button className="size-10 bg-navy-surface border border-navy-border rounded-lg text-white hover:text-primary hover:border-primary/50 flex items-center justify-center shadow-lg transition-all">
-          <span className="material-symbols-outlined">remove</span>
-        </button>
-        <button className="size-10 bg-navy-surface border border-navy-border rounded-lg text-white hover:text-primary hover:border-primary/50 flex items-center justify-center shadow-lg transition-all mt-2">
-          <span className="material-symbols-outlined">my_location</span>
-        </button>
-        <button className="size-10 bg-navy-surface border border-navy-border rounded-lg text-white hover:text-primary hover:border-primary/50 flex items-center justify-center shadow-lg transition-all">
-          <span className="material-symbols-outlined">layers</span>
-        </button>
-      </div>
+        {geojsonData && (
+          <>
+            <GeoJSON
+              data={geojsonData}
+              style={{
+                color: status === "flooded" ? "red" : "green",
+                weight: 5,
+              }}
+            />
+
+            <Marker position={[start[1], start[0]]}>
+              <Popup>Start Point</Popup>
+            </Marker>
+
+            <Marker position={[end[1], end[0]]}>
+              <Popup>
+                Distance: {distanceKm} km
+              </Popup>
+            </Marker>
+          </>
+        )}
+      </MapContainer>
     </div>
   );
 };
 
-export default MapArea;
+export default RouteMap;

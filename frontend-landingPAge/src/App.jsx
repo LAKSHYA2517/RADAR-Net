@@ -25,9 +25,7 @@ export default function App() {
       <nav className="fixed w-full z-50 border-b border-yellow-400/10 bg-slate-950/90 backdrop-blur-md px-6 py-4 flex justify-between items-center">
 
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-yellow-400 rounded-lg flex items-center justify-center text-black shadow-lg">
-            <PathIcon />
-          </div>
+          
           <span className="text-xl font-black tracking-tight text-white uppercase italic">
             RADAR.Net
           </span>
@@ -69,8 +67,8 @@ export default function App() {
           {/* CREATIVE GET STARTED BUTTON */}
           <div className="flex justify-center">
             <button
-              onClick={() => window.location.href = "/dashboard"}
-              className="relative px-16 py-6 rounded-full font-black text-lg uppercase tracking-widest text-black bg-yellow-400 overflow-hidden group transition-all duration-300 hover:scale-110 hover:shadow-[0_0_60px_rgba(250,204,21,0.9)] shadow-2xl ring-4 ring-yellow-400/20 hover:ring-yellow-400/40"
+              onClick={() => window.location.href = "http://localhost:5173/dashboard"}
+              className="relative px-16 py-6 rounded-full font-black text-lg uppercase tracking-widest text-white bg-yellow-400 overflow-hidden group transition-all duration-300 hover:scale-110 hover:shadow-[0_0_60px_rgba(250,204,21,0.9)] shadow-2xl ring-4 ring-yellow-400/20 hover:ring-yellow-400/40"
             >
               <span className="relative z-10 flex items-center gap-3">
                 Get Started
@@ -89,7 +87,7 @@ export default function App() {
       {/* STRONG STATEMENT SECTION */}
       <section className="py-24 text-center border-t border-yellow-400/10">
         <h2 className="text-4xl md:text-6xl font-black text-yellow-400 uppercase tracking-tight">
-          Built for the First 60 Minutes.
+          Built for the First Action.
         </h2>
         <p className="text-slate-500 mt-6 max-w-2xl mx-auto">
           Because delayed evacuation routes cost lives.
