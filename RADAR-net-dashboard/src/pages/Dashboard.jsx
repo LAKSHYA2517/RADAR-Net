@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import MapArea from '../components/MapArea';
 
 const Dashboard = () => {
+  const [geojsonData, setGeojsonData] = React.useState(null);
   return (
     <div className="h-screen w-full flex overflow-hidden text-white bg-navy-deep">
       <Sidebar />
@@ -12,7 +13,7 @@ const Dashboard = () => {
 
         {/* Scrollable Content Area */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 flex flex-col gap-6">
-          <MapArea />
+          <MapArea geojsonData={geojsonData} setGeojsonData={setGeojsonData} />
         </div>
       </main>
     </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import axios from 'axios';
 
-const RoutePlanner = () => {
+const RoutePlanner = ({setGeojsonData}) => {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,22 +24,53 @@ const RoutePlanner = () => {
     );
   };
 
-  const handleSubmit = async () => {
-    if (!start || !end) {
-      alert("Please enter both locations");
-      return;
-    }
+ const handleSubmit = async () => {
+  if (!start || !end) {
+    alert("Please enter both locations");
+    return;
+  }
 
-    setLoading(true);
+  // Validate start coordinates format
+  const startParts = start.split(",");
+  if (startParts.length !== 2) {
+    alert("Please enter start location in format: latitude, longitude");
+    return;
+  }
 
-    await fetch("http://localhost:8000/find-route", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ start, end }),
-    });
+  const startLat = parseFloat(startParts[0].trim());
+  const startLon = parseFloat(startParts[1].trim());
 
+  if (isNaN(startLat) || isNaN(startLon)) {
+    alert("Invalid start coordinates");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const payload = {
+      start_lat: startLat,
+      start_lon: startLon,
+      destination: end.trim()
+    };
+    
+    // 🔍 DEBUG: Log what we're sending
+    console.log("📤 Sending to backend:", payload);
+
+    const result = await axios.post("http://localhost:8000/process", payload);
+
+    // 🔍 DEBUG: Log what we received
+    console.log("📥 Received from backend:", result.data);
+    
+    setGeojsonData(result.data);
+  } catch (error) {
+    console.error("Error fetching route:", error);
+    alert("Failed to fetch route. Please try again.");
+  } finally {
     setLoading(false);
-  };
+  }
+};
+
 
   return (
     <div className="w-80 bg-gradient-to-br from-[#0f172a] to-[#0b1220] border border-primary/20 rounded-2xl p-5 shadow-[0_0_40px_rgba(211,246,106,0.05)] backdrop-blur-xl">
@@ -49,9 +81,6 @@ const RoutePlanner = () => {
           <span className="material-symbols-outlined text-base">navigation</span>
           Route Planner
         </h2>
-        <button className="text-gray-400 hover:text-white transition">
-          ✕
-        </button>
       </div>
 
       {/* Input Section */}
