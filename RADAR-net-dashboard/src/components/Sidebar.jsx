@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Sidebar = () => {
+const Sidebar = ({ setVisibleFloatingWidget }) => {
   return (
     <aside className="w-64 flex-shrink-0 flex flex-col border-r border-navy-border bg-navy-deep z-20">
       {/* Logo Area */}
@@ -22,7 +22,7 @@ const Sidebar = () => {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-6 px-3 flex flex-col gap-1">
-        <button to="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary border-l-2 border-primary transition-all group">
+        <button to="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary border-l-2 border-primary transition-all group" onClick={() => setVisibleFloatingWidget(s => !s)}>
           <span className="material-symbols-outlined text-[20px]">dashboard</span>
           <span className="text-sm font-medium">Route Planner</span>
         </button>

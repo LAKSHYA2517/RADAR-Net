@@ -59,6 +59,10 @@ const RoutePlanner = ({setGeojsonData}) => {
 
     const result = await axios.post("http://localhost:8000/process", payload);
 
+    if(result.status === 404) {
+      alert("Route not found. Please check your start and destination.");
+      return;
+    }
     // 🔍 DEBUG: Log what we received
     console.log("📥 Received from backend:", result.data);
     

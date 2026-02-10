@@ -5,15 +5,16 @@ import MapArea from '../components/MapArea';
 
 const Dashboard = () => {
   const [geojsonData, setGeojsonData] = React.useState(null);
+  const [visibleFloatingWidget, setVisibleFloatingWidget] = React.useState(true);
   return (
     <div className="h-screen w-full flex overflow-hidden text-white bg-navy-deep">
-      <Sidebar />
+      <Sidebar setVisibleFloatingWidget={setVisibleFloatingWidget} />
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         <Header />
 
         {/* Scrollable Content Area */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 flex flex-col gap-6">
-          <MapArea geojsonData={geojsonData} setGeojsonData={setGeojsonData} />
+          <MapArea visibleFloatingWidget={visibleFloatingWidget} setVisibleFloatingWidget={setVisibleFloatingWidget} geojsonData={geojsonData} setGeojsonData={setGeojsonData} />
         </div>
       </main>
     </div>

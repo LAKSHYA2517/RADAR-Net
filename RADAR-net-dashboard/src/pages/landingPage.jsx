@@ -31,13 +31,6 @@ export function LandingPage() {
           </span>
         </div>
 
-        {/* LOGIN BUTTON */}
-        <button
-          onClick={() => window.location.href = "/login"}
-          className="px-8 py-2.5 rounded-full border-2 border-yellow-400 bg-yellow-400/10 text-white font-bold text-sm uppercase tracking-wider hover:bg-yellow-400 hover:text-black hover:shadow-[0_0_25px_rgba(250,204,21,0.5)] hover:scale-105 transition-all duration-300 shadow-lg"
-        >
-          Login
-        </button>
       </nav>
 
       {/* HERO */}
@@ -46,12 +39,6 @@ export function LandingPage() {
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-yellow-400/10 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-
-          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-yellow-400/40 bg-yellow-400/10 text-yellow-400 text-xs font-black mb-8 tracking-widest">
-            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-            ACTIVE FLOOD RESPONSE MODE
-          </div>
-
           <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
             WHEN ROADS <br />
             <span className="text-yellow-400 uppercase">DISAPPEAR,</span><br />

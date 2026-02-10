@@ -10,9 +10,9 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const RouteMap = ({ geojsonData, setGeojsonData }) => {
+const RouteMap = ({ geojsonData, setGeojsonData , visibleFloatingWidget, setVisibleFloatingWidget}) => {
   return (
-    <div style={{ position: "relative", height: "600px", width: "100%" }}>
+    <div style={{ position: "relative", height: "100%", width: "100%" }}>
       {/* 🔥 Route Planner Floating UI */}
       <div
         style={{
@@ -22,7 +22,7 @@ const RouteMap = ({ geojsonData, setGeojsonData }) => {
           zIndex: 1000,
         }}
       >
-        <RoutePlanner setGeojsonData={setGeojsonData} />
+        {visibleFloatingWidget &&<RoutePlanner setGeojsonData={setGeojsonData} />}
       </div>
 
       {/* Show default map when no route data */}
@@ -85,7 +85,6 @@ const RouteMap = ({ geojsonData, setGeojsonData }) => {
                   color: "black"
                 }}
               >
-                📏 {distanceKm} km &nbsp; | &nbsp; ⏱ {timeMinutes} mins &nbsp; | &nbsp;
                 {status === "flooded" ? "🔴 Flood Risk" : "🟢 Safe Route"}
               </div>
 
