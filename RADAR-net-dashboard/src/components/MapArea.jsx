@@ -37,6 +37,44 @@ const RouteMap = ({ geojsonData, setGeojsonData , visibleFloatingWidget, setVisi
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
         </MapContainer>
+      ) : !geojsonData.features || geojsonData.features.length === 0 ? (
+        // Show error when no route found
+        <>
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+              background: "white",
+              padding: "20px 30px",
+              borderRadius: "12px",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+              textAlign: "center",
+              color: "#1f2937",
+              border: "1px solid #e5e7eb"
+            }}
+          >
+            <div style={{ fontSize: "48px", marginBottom: "10px" }}>⚠️</div>
+            <div style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "5px" }}>
+              No Route Found
+            </div>
+            <div style={{ fontSize: "14px", color: "#666" }}>
+              Unable to find a route between the selected locations
+            </div>
+          </div>
+          <MapContainer
+            center={[20.5937, 78.9629]}
+            zoom={5}
+            style={{ height: "100%", width: "100%" }}
+          >
+            <TileLayer
+              attribution="&copy; OpenStreetMap contributors"
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+          </MapContainer>
+        </>
       ) : (
         // Show route map when data exists
         (() => {
@@ -80,9 +118,11 @@ const RouteMap = ({ geojsonData, setGeojsonData , visibleFloatingWidget, setVisi
                   background: "white",
                   padding: "10px 20px",
                   borderRadius: "12px",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
                   fontWeight: "bold",
-                  color: "black"
+                  color: status === "flooded" ? "#dc2626" : "#059669",
+                  border: status === "flooded" ? "2px solid #fecaca" : "2px solid #d1fae5",
+                  backgroundColor: status === "flooded" ? "#fef2f2" : "#f0fdf4"
                 }}
               >
                 {status === "flooded" ? "🔴 Flood Risk" : "🟢 Safe Route"}

@@ -7,7 +7,7 @@ const Dashboard = () => {
   const [geojsonData, setGeojsonData] = React.useState(null);
   const [visibleFloatingWidget, setVisibleFloatingWidget] = React.useState(true);
   return (
-    <div className="h-screen w-full flex overflow-hidden text-white bg-navy-deep">
+    <div className="h-screen w-full flex overflow-hidden text-gray-800 bg-gray-50">
       <Sidebar setVisibleFloatingWidget={setVisibleFloatingWidget} />
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         <Header />
